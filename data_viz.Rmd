@@ -169,6 +169,9 @@ ggsave("plot/ggp_weather.pdf", ggp_weather,
 
 ```
 
+```{r fig.width=6, fig.height=4}
+ggp_weather
+```
 
 
 
