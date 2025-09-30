@@ -1,5 +1,5 @@
 ---
-title: "viz)2"
+title: "viz 2"
 output: github_document
 date: "2025-09-30"
 ---
@@ -110,9 +110,34 @@ ggplot(data=molokai_park_df, aes(x=date,y=tmax, color= name))+
   geom_point()+
   geom_line(data=central_park_df)
 ```
+## `patchwork`
+
+
+make three plots and combien using patchwork
 ```{r}
+ggp_tmax_tmin=
+  weather_df |> 
+  ggplot(aes(x = tmax, y = tmin, color = name)) + 
+  geom_point(alpha = .5) +
+  theme(legend.position = "none")
+
+prcp_dens_p = 
+  weather_df |> 
+  filter(prcp > 0) |> 
+  ggplot(aes(x = prcp, fill = name)) + 
+  geom_density(alpha = .5) + 
+  theme(legend.position = "none")
 
 
+tmax_date_p = 
+  weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) + 
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE) + 
+  theme(legend.position = "bottom")
+
+
+(ggp_tmax_tmin + prcp_dens_p) / tmax_date_p
 
 ```
 

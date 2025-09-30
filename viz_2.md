@@ -1,4 +1,4 @@
-viz)2
+viz 2
 ================
 2025-09-30
 
@@ -142,4 +142,45 @@ ggplot(data=molokai_park_df, aes(x=date,y=tmax, color= name))+
     ## Warning: Removed 1 row containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](viz_2_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](viz_2_files/figure-gfm/unnamed-chunk-8-1.png)<!-- --> \##
+`patchwork`
+
+make three plots and combien using patchwork
+
+``` r
+ggp_tmax_tmin=
+  weather_df |> 
+  ggplot(aes(x = tmax, y = tmin, color = name)) + 
+  geom_point(alpha = .5) +
+  theme(legend.position = "none")
+
+prcp_dens_p = 
+  weather_df |> 
+  filter(prcp > 0) |> 
+  ggplot(aes(x = prcp, fill = name)) + 
+  geom_density(alpha = .5) + 
+  theme(legend.position = "none")
+
+
+tmax_date_p = 
+  weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) + 
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE) + 
+  theme(legend.position = "bottom")
+
+
+(ggp_tmax_tmin + prcp_dens_p) / tmax_date_p
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
+    ## Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
