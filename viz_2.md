@@ -87,4 +87,59 @@ weather_df |>
   )
 ```
 
-![](viz_2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](viz_2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- --> \## theme
+
+make my base plot
+
+``` r
+ggp_temperature= weather_df |> 
+  filter(tmax>10, tmax<30) |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    color = "Location",
+    caption = "Data from the rnoaa package") + 
+  scale_x_continuous(
+    breaks = c(-15, 0, 15), 
+    labels = c("-15ºC", "0", "15"),
+    limits = c(-20, 30)) + 
+  viridis::scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  )
+```
+
+update it
+
+``` r
+ggp_temperature+
+  theme_minimal()+
+  theme(legend.position = "bottom")
+```
+
+![](viz_2_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+## adding data in geoms
+
+``` r
+central_park_df=
+  weather_df |> 
+  filter(name=="CentralPark_NY")
+
+molokai_park_df=
+  weather_df |> 
+  filter(name=="Molokai_HI")
+
+
+ggplot(data=molokai_park_df, aes(x=date,y=tmax, color= name))+
+  geom_point()+
+  geom_line(data=central_park_df)
+```
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_2_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
