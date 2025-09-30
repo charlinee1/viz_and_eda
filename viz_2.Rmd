@@ -1,0 +1,66 @@
+---
+title: "viz)2"
+output: github_document
+date: "2025-09-30"
+---
+
+
+/*install.packages("viridis") devtools::install_github("p8105/p8105.datasets") */
+```{r}
+
+library(viridis)
+library(tidyverse)
+library(patchwork)
+library(p8105.datasets)
+
+```
+
+```{r}
+library(p8105.datasets)
+data("weather_df")
+```
+
+
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5)
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    color = "Location",
+    caption = "Data from the rnoaa package"
+  )
+```
+
+```{r}
+weather_df |> 
+  filter(tmax>10, tmax<30) |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    color = "Location",
+    caption = "Data from the rnoaa package") + 
+  scale_x_continuous(
+    breaks = c(-15, 0, 15), 
+    labels = c("-15ºC", "0", "15"),
+    limits = c(-20, 30)) + 
+  viridis::scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  )
+```
+
+
+
