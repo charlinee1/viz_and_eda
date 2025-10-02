@@ -6,7 +6,82 @@ date: "2025-10-02"
 
 ```{r setup, include=FALSE}
 library(p8105.datasets)
-data("weather_df")
+library(tidyverse)
+
+weather_df = 
+  weather_df |>
+  mutate(
+    month = lubridate::floor_date(date, unit = "month"))
+
 ```
+
+make plots
+```{r}
+weather_df |> 
+    ggplot(aes(x = prcp)) + 
+  geom_histogram()
+```
+
+check on extreme values
+```{r}
+weather_df |> 
+  filter(prcp>1000)
+```
+
+look at data again
+```{r}
+weather_df |> 
+  filter(tmax>=20, tmax <=30) |> 
+  ggplot(aes(x=tmin, y=tmax, color=name, shape = name))+
+  geom_point()
+```
+## add groups
+```{r}
+weather_df |> 
+  group_by(month)
+```
+Group and count things
+```{r}
+weather_df |> 
+  group_by(name) |> 
+  summarize(
+    n=n()
+  )
+```
+
+```{r}
+weather_df |> 
+  group_by(month) |> 
+  summarize(
+    n=n()
+  )
+```
+
+```{r}
+weather_df |> 
+  group_by(month, name) |> 
+  summarize(
+    n=n()
+  )
+```
+```{r}
+
+weather_df |> 
+  group_by(month) |> 
+  summarize(
+    n=n_distinct(date)
+  )
+```
+You can count directly
+```{r}
+weather_df |> 
+  count(name)
+```
+
+
+```{r}
+
+```
+
 
 
