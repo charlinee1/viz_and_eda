@@ -1,0 +1,12 @@
+---
+title: "EDA"
+output: github_document
+date: "2025-10-02"
+---
+
+```{r setup, include=FALSE}
+library(p8105.datasets)
+data("weather_df")
+```
+
+
