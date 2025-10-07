@@ -113,10 +113,46 @@ weather_df |>
 
 ```
 
+## mutate with groups
+```{r}
+weather_df |> 
+  group_by(name) |> 
+  mutate(
+    mean_tmax=mean(tmax, na.rm=TRUE),
+    center_tmax=tmax-mean_tmax
+  ) |> 
+  ggplot(aes(x=date,y=center_tmax, color=name))+
+  geom_point()
+
+```
+
+look for cold days.
+```{r}
+weather_df |> 
+  group_by(name,month) |> 
+  mutate(temp_rank=min_rank(desc(tmax))) |> 
+  filter(temp_rank<2)
+```
+
+what about lags?
+```{r}
+
+weather_df |> 
+  mutate(lag_tmax=lag(tmax))
+```
 
 
-
-
-
+use the variables you create
+```{r}
+weather_df |> 
+  group_by(name) |> 
+  mutate(
+    temp_change=tmax-lag(tmax) )|> 
+      summarize(ch_rank=min_rank(temp_change)), na.rm = TRUE)
+                tmax_c_max=max(temp_change, na.rm=TRUE) |> 
+  filter(desc(ch_rank)<2
+  )
+                
+```
 
 
